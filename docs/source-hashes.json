@@ -1,0 +1,30 @@
+﻿[
+    {
+        "path":  "README.md",
+        "sha256":  "C9F6EBF236075ABD4304B44CB4981E3C73FB1A264CC1F447414B6A5DB658867A"
+    },
+    {
+        "path":  "sql\\schema.sql",
+        "sha256":  "B6693CE4A1666902805974B241E5B00DC81D33E28A5A62F365D55F57B8D1E6A7"
+    },
+    {
+        "path":  "sql\\synthetic.sql",
+        "sha256":  "3F0A286F6E74A0629C0D181981AFDEE02238095DC7D874798D04D430287CDBC3"
+    },
+    {
+        "path":  "attachments\\bigdata-demo.html",
+        "sha256":  "910DC03D0FD1E15CEF255D7D4EF42E87E853A1AE0DE0EFD2E94A89C0D1427035"
+    },
+    {
+        "path":  "attachments\\data-requirements.md",
+        "sha256":  "0393CFF803D4BF900994A34F1DB43C685D4A09096612C300218CDB8F01B09A8E"
+    },
+    {
+        "path":  "attachments\\meeting-summary.md",
+        "sha256":  "434EE9A7DBDE4273D71DC0D5A22D1E79665F0A47410C7F8F7180B63811DF819E"
+    },
+    {
+        "path":  "attachments\\ml-report.md",
+        "sha256":  "3BF0F56906C777715851F9CC957BCE7E533720B340E179731E6F6DF7EB987DE6"
+    }
+]

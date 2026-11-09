@@ -1,0 +1,37 @@
+﻿[
+    {
+        "path":  "README.md",
+        "unchanged":  true,
+        "copy_matches":  true
+    },
+    {
+        "path":  "sql\\schema.sql",
+        "unchanged":  true,
+        "copy_matches":  true
+    },
+    {
+        "path":  "sql\\synthetic.sql",
+        "unchanged":  true,
+        "copy_matches":  true
+    },
+    {
+        "path":  "attachments\\bigdata-demo.html",
+        "unchanged":  true,
+        "copy_matches":  true
+    },
+    {
+        "path":  "attachments\\data-requirements.md",
+        "unchanged":  true,
+        "copy_matches":  true
+    },
+    {
+        "path":  "attachments\\meeting-summary.md",
+        "unchanged":  true,
+        "copy_matches":  true
+    },
+    {
+        "path":  "attachments\\ml-report.md",
+        "unchanged":  true,
+        "copy_matches":  true
+    }
+]

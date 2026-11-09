@@ -1,0 +1,65 @@
+name: smart-logistics-de-test
+services:
+  postgres:
+    image: postgres:17.6-bookworm
+    environment:
+      POSTGRES_DB: logistics
+      POSTGRES_USER: logistics
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local_demo_only}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-55432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U logistics -d logistics"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    shm_size: 256mb
+    mem_limit: 2g
+  pipeline:
+    image: smart-logistics-de-test-pipeline:local
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    environment:
+      PGHOST: postgres
+      PGPORT: 5432
+      PGDATABASE: logistics
+      PGUSER: logistics
+      PGPASSWORD: ${POSTGRES_PASSWORD:-local_demo_only}
+      ARTIFACT_DIR: /app/artifacts
+      MODEL_THREADS: 2
+      CLICKHOUSE_URL: http://clickhouse:8123
+      CLICKHOUSE_USER: logistics
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:-local_demo_only}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+    volumes:
+      - artifacts:/app/artifacts
+    mem_limit: 2g
+  clickhouse:
+    image: clickhouse/clickhouse-server:25.8.8.26
+    environment:
+      CLICKHOUSE_USER: logistics
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:-local_demo_only}
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+    volumes:
+      - chdata:/var/lib/clickhouse
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8123/ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    mem_limit: 1536m
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+volumes:
+  pgdata:
+  artifacts:
+  chdata:

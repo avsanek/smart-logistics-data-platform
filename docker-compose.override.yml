@@ -1,0 +1,77 @@
+# Loaded automatically by both docker compose up and docker-compose up.
+# The default orchestrator is Airflow. The CLI service remains available in profile manual.
+x-airflow: &airflow
+  image: smart-logistics-de-test-airflow:local
+  build:
+    context: .
+    dockerfile: docker/Airflow.Dockerfile
+  environment: &airflow-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    AIRFLOW__CORE__DAGS_FOLDER: /app/dags
+    AIRFLOW__CORE__PARALLELISM: 2
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://logistics:${POSTGRES_PASSWORD:-local_demo_only}@postgres:5432/airflow
+    AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
+    AIRFLOW__WEBSERVER__WORKERS: 1
+    AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_SECRET_KEY:-local_demo_signing_key_change_for_shared_use}
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'false'
+    AIRFLOW_ADMIN_PASSWORD: ${AIRFLOW_ADMIN_PASSWORD:-local_demo_only}
+    PGHOST: postgres
+    PGPORT: 5432
+    PGDATABASE: logistics
+    PGUSER: logistics
+    PGPASSWORD: ${POSTGRES_PASSWORD:-local_demo_only}
+    ARTIFACT_DIR: /app/artifacts
+    MODEL_THREADS: 2
+    CLICKHOUSE_URL: http://clickhouse:8123
+    CLICKHOUSE_USER: logistics
+    CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:-local_demo_only}
+  volumes:
+    - artifacts:/app/artifacts
+    - airflow-logs:/opt/airflow/logs
+services:
+  pipeline:
+    profiles: [manual]
+  airflow-init:
+    <<: *airflow
+    environment:
+      <<: *airflow-env
+      # PG healthcheck already passed; metadata database is created by this initializer.
+      CONNECTION_CHECK_MAX_COUNT: '0'
+    user: '0:0'
+    entrypoint: /bin/bash
+    command: ['-ec', 'mkdir -p /app/artifacts /opt/airflow/logs; chown -R 50000:0 /app/artifacts /opt/airflow/logs; exec /entrypoint python /app/docker/airflow_init.py']
+    depends_on:
+      postgres:
+        condition: service_healthy
+    mem_limit: 1g
+  airflow-scheduler:
+    <<: *airflow
+    command: scheduler
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+      clickhouse:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, curl, --fail, http://localhost:8974/health]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+    mem_limit: 2500m
+  airflow-webserver:
+    <<: *airflow
+    command: webserver
+    ports:
+      - '127.0.0.1:${AIRFLOW_PORT:-8080}:8080'
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: [CMD, curl, --fail, http://localhost:8080/health]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+    mem_limit: 1g
+volumes:
+  airflow-logs:

@@ -1,0 +1,31 @@
+﻿{
+    "project":  "smart-logistics-de-test",
+    "containers":  [
+                       "smart-logistics-de-test-airflow-scheduler-1",
+                       "smart-logistics-de-test-airflow-webserver-1",
+                       "smart-logistics-de-test-airflow-init-1",
+                       "smart-logistics-de-test-clickhouse-1",
+                       "smart-logistics-de-test-postgres-1"
+                   ],
+    "networks":  [
+                     "smart-logistics-de-test_default"
+                 ],
+    "volumes":  [
+                    "smart-logistics-de-test_airflow-logs",
+                    "smart-logistics-de-test_artifacts",
+                    "smart-logistics-de-test_chdata",
+                    "smart-logistics-de-test_pgdata"
+                ],
+    "owned_image_ids":  [
+                            "sha256:8f8bdf37d8fa6db5cf8f676b74765b1c54f297221f57c896c92c720ad39ce94a",
+                            "sha256:05a6047d109d5fed4237dd0328414af5ad2b1870b9b0d28b17976d7ff3446970",
+                            "sha256:9b16aa19162e490a5d8041615425c650369fe4901c184ad5c0a885178b6d2d8e",
+                            "sha256:4811bc147aa9f03f21e2f43294ddd8db7faeb6c18547ad1ac633131ec6141def",
+                            "sha256:c68c12363197a0d1b45da98e0c64d5bc4bab19dfadcf2eb6770fcd3230636103",
+                            "sha256:21a75a714c456b1700ac2022833ebe207427e7def7656ae0a969e3496c717e2d",
+                            "sha256:6080d660c2b85a651f737f26e0b8bf143a9dcb6683e9b1697aaf5111464f0b5f",
+                            "sha256:290cdeb7de79d2dec00461bb481654a62169eb918c2e812b1063d144a4dd05a2",
+                            "sha256:389302226bed5a4645427a0d4f02f272d9188b8801a638053eea880ad8178d39",
+                            "sha256:bb2b385781e5df5998cf0d6b7ad7f3c8f3f9a03dfd017d2878fc189cc1db0397"
+                        ]
+}

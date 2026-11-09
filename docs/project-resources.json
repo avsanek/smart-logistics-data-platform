@@ -1,0 +1,19 @@
+﻿{
+    "containers":  [
+                       "smart-logistics-de-test-airflow-webserver-1",
+                       "smart-logistics-de-test-airflow-scheduler-1",
+                       "smart-logistics-de-test-airflow-init-1",
+                       "smart-logistics-de-test-pipeline-1",
+                       "smart-logistics-de-test-clickhouse-1",
+                       "smart-logistics-de-test-postgres-1"
+                   ],
+    "networks":  [
+                     "smart-logistics-de-test_default"
+                 ],
+    "volumes":  [
+                    "smart-logistics-de-test_airflow-logs",
+                    "smart-logistics-de-test_artifacts",
+                    "smart-logistics-de-test_chdata",
+                    "smart-logistics-de-test_pgdata"
+                ]
+}
