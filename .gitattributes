@@ -1,0 +1,5 @@
+* text=auto eol=lf
+/docs/original-assignment.md -text
+/docs/attachments/** -text
+/sql/schema.sql -text
+/sql/synthetic.sql -text

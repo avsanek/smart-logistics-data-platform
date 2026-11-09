@@ -1,0 +1,16 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.log
+artifacts/*
+!artifacts/.gitkeep
+*.cbm
+*.parquet
+*.csv
+*.dump
+*.sqlite*
+.idea/
+catboost_info/
